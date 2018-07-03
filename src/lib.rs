@@ -10,7 +10,7 @@ extern "platform-intrinsic" {
 }
 
 #[test]
-pub fn test() {
+pub fn vector_test() {
     unsafe {
         let z = i128x1(0_i128);
         let o = i128x1(1_i128);
@@ -18,5 +18,15 @@ pub fn test() {
         if simd_shr(o, z).0 !=  o.0 {
             panic!();
         }
+    }
+}
+
+#[test]
+pub fn scalar_test() {
+    let z = 0_i128;
+    let o = 1_i128;
+
+    if o >> z != o {
+        panic!();
     }
 }
