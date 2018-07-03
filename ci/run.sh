@@ -17,3 +17,4 @@ echo "NORUN=${NORUN}"
 echo "CARGO_SUBCMD=${CARGO_SUBCMD}"
 
 cargo test --target=${TARGET} $1
+cargo test --release --target=${TARGET} $1
