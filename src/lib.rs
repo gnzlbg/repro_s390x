@@ -1,20 +1,22 @@
-#[cfg(test)]
-extern crate ppv;
+#![feature(repr_simd, platform_intrinsics)]
+#![allow(non_camel_case_types)]
 
-#[cfg(test)]
-use ppv::i128x1;
+#[derive(Copy,Clone)]
+#[repr(simd)]
+pub struct i128x1(i128);
+
+extern "platform-intrinsic" {
+    pub fn simd_shr<T>(x: T, y: T) -> T;
+}
 
 #[test]
-pub fn foo() {
-    let z = i128x1::splat(0 as i128);
-    let o = i128x1::splat(1 as i128);
-    let t = i128x1::splat(2 as i128);
+pub fn test() {
+    unsafe {
+        let z = i128x1(0_i128);
+        let o = i128x1(1_i128);
 
-    // shr
-    assert_eq!(z >> z, z);
-    assert_eq!(z >> o, z);
-    assert_eq!(z >> t, z);
-    assert_eq!(z >> t, z);
-
-    assert_eq!(o >> z, o);
+        if simd_shr(o, z).0 !=  o.0 {
+            panic!();
+        }
+    }
 }
