@@ -1,0 +1,14 @@
+language: rust
+sudo: false
+rust: nightly
+
+matrix:
+  fast_finish: true
+  include:
+    - env: TARGET=s390x-unknown-linux-gnu
+install:
+  - rustup target add $TARGET || true
+
+script:
+  - cargo generate-lockfile
+  - ci/run-docker.sh $TARGET $FEATURES
